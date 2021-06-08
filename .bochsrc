@@ -5,8 +5,11 @@ display_library: sdl2
 memory: host=32, guest=32
 romimage: file="/usr/local/Cellar/bochs/2.6.11/share/bochs/BIOS-bochs-latest", address=0x00000000, options=none
 vgaromimage: file="/usr/local/Cellar/bochs/2.6.11/share/bochs/VGABIOS-lgpl-latest"
+# 从软盘启动
 boot: floppy
 floppy_bootsig_check: disabled=0
+# 软盘类型为 1.44 MB 软盘，软盘镜像文件的名称为 boot.img，状态是已经插入，写保护关闭
+floppya: type=1_44, 1_44="boot.img", status=inserted, write_protected=0
 # no floppya
 # no floppyb
 ata0: enabled=true, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
@@ -27,6 +30,7 @@ optramimage3: file=none
 optramimage4: file=none
 pci: enabled=1, chipset=i440fx
 vga: extension=vbe, update_freq=5, realtime=1
+# cpu 类型
 cpu: count=1, ips=4000000, model=bx_generic, reset_on_triple_fault=1, cpuid_limit_winnt=0, ignore_bad_msrs=1, mwait_is_nop=0
 cpuid: level=6, stepping=3, model=3, family=6, vendor_string="GenuineIntel", brand_string="              Intel(R) Pentium(R) 4 CPU        "
 cpuid: mmx=true, apic=xapic, simd=sse2, sse4a=false, misaligned_sse=false, sep=true
@@ -55,3 +59,5 @@ com1: enabled=true, mode=null
 com2: enabled=false
 com3: enabled=false
 com4: enabled=false
+# 内存 2G
+megs: 2048
