@@ -6,7 +6,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "cd ${workspaceFolder}/output && nasm -fmacho64 ${file} -o ${fileBasenameNoExtension}.o && ld -macosx_version_min 10.7.0 ${fileBasenameNoExtension}.o",
+            "command": "cd ${workspaceFolder}/output && nasm -f macho64 ${file} -o ${fileBasenameNoExtension}.o && gcc -arch x86_64 -o ${fileBasenameNoExtension}.o ${fileBasenameNoExtension}.o",
             "problemMatcher": []
         }
     ]
