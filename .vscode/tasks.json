@@ -4,10 +4,27 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "build asm",
             "type": "shell",
             "command": "cd ${workspaceFolder}/output && nasm -f macho64 ${file} -o ${fileBasenameNoExtension}.o && gcc -arch x86_64 -o ${fileBasenameNoExtension}.o ${fileBasenameNoExtension}.o",
             "problemMatcher": []
+        },
+        {
+            "type": "cppbuild",
+            "label": "build c",
+            "command": "/usr/bin/clang",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${workspaceFolder}/output/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
         }
     ]
 }
