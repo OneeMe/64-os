@@ -1,16 +1,22 @@
 mov ah, 0x0e
-mov al, 'H'
+; first try
+mov al, secreet
 int 0x10
-mov al, 'e'
+; second try
+mov al, [secreet]
 int 0x10
-mov al, 'l'
+; third try
+mov bx, secreet
+add bx, 0x7c00
+mov al, [bx]
 int 0x10
-mov al, 'l'
-int 0x10
-mov al, 'o'
+; fourth try
+mov al, [0x7c1d]
 int 0x10
 
 jmp $
+secreet:
+    db 'X'
 
 times 510 - ($ - $$) db 0
 dw 0xaa55
