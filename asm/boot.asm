@@ -1,24 +1,19 @@
-mov ah, 0x0e
+org 0x7c00
 
-mov bp, 0x8000
-mov sp, bp
+mov bx, HELLO_MSG
+call print_string
 
-push 'A'
-push 'B'
-push 'C'
-
-pop bx
-mov al, bl
-int 0x10
-
-pop bx
-mov al, bl
-int 0x10
-
-mov al, [0x7ffe]
-int 0x10
+mov bx, GOODBYE_MSG
+call print_string
 
 jmp $
+
+%include "print_string.asm"
+
+HELLO_MSG:
+    db 'hello, world!', 0
+GOODBYE_MSG: 
+    db 'Goodby!', 0
 
 times 510 - ($ - $$) db 0
 dw 0xaa55
