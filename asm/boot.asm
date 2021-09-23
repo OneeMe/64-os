@@ -6,9 +6,12 @@ call print_string
 mov bx, GOODBYE_MSG
 call print_string
 
+mov dx, 0x12fe
+call print_string_hex
+
 jmp $
 
-%include "print_string.asm"
+%include "print_string_hex.asm"
 
 HELLO_MSG:
     db 'hello, world!', 0
