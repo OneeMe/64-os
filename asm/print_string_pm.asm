@@ -13,7 +13,7 @@ print_string_loop:
     mov ah, WHITE_ON_BLACK
 
     cmp al, 0
-    je over
+    je print_string_pm_done
 
     mov [edx], ax ; 把 ax 寄存器上的内容复制到 0xb8000 开始的内存上
 
@@ -22,7 +22,7 @@ print_string_loop:
 
     jmp print_string_loop
 
-over:
+print_string_pm_done:
     popa
     ret
 
