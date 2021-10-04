@@ -1,30 +1,50 @@
 org 0x7c00
+KERNEL_OFFSET equ 0x1000 ; The same one we used when linking the kernel
 
-mov bp, 0x9000 ; 设置 stack base 为 0x9000
-mov sp, bp ; 把 stack base 和 stack top 初始化
+    mov [BOOT_DRIVE], dl ; Remember that the BIOS sets us the boot drive in 'dl' on boot
+    mov bp, 0x9000
+    mov sp, bp
 
-mov bx, MSG_REAL_MODE 
-call print_string
+    mov bx, MSG_REAL_MODE 
+    call print_string
 
-call switch_to_pm
+    call load_kernel ; read the kernel from disk
 
-jmp $
+    call switch_to_pm ; disable interrupts, load GDT,  etc. Finally jumps to 'BEGIN_PM'
 
-%include "print_string.asm"
+    jmp $ ; Never executed
+
+%include "print_string_hex.asm"
+%include "disk_load.asm"
 %include "gdt.asm"
-%include "switch_to_pm.asm"
 %include "print_string_pm.asm"
+%include "switch_to_pm.asm"
+
+[bits 16]
+load_kernel:
+    mov bx, MSG_LOAD_KERNEL
+    call print_string
+
+    mov bx, KERNEL_OFFSET ; Read from disk and store in 0x1000
+    mov dh, 15
+    mov dl, [BOOT_DRIVE]
+    call disk_load
+    ret
 
 [bits 32]
 BEGIN_PM:
-mov ebx, MSG_PORT_MODE
-call print_string_pm
+    mov ebx, MSG_PROT_MODE
+    call print_string_pm
 
-jmp $
+    call KERNEL_OFFSET ; Give control to the kernel
+    jmp $ ; Stay here when the kernel returns control to us (if ever)
 
-; Global variables
-MSG_REAL_MODE db "Start in 16 bit real mode", 0
-MSG_PORT_MODE db "Successfully landed in 32-bit Protected mode", 0
 
-times 510 - ($ - $$) db 0
+BOOT_DRIVE db 0 ; It is a good idea to store it in memory because 'dl' may get overwritten
+MSG_REAL_MODE db "Started in 16-bit Real Mode", 0
+MSG_PROT_MODE db "Landed in 32-bit Protected Mode", 0
+MSG_LOAD_KERNEL db "Loading kernel into memory", 0
+
+; padding
+times 510 - ($-$$) db 0
 dw 0xaa55

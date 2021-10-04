@@ -4,31 +4,39 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build asm",
+            "label": "build boot",
             "type": "shell",
-            "command": "cd ${workspaceFolder}/output && nasm -f macho64 ${file} -o ${fileBasenameNoExtension}.o && gcc -arch x86_64 -o ${fileBasenameNoExtension}.o ${fileBasenameNoExtension}.o",
+            "command": "nasm -f bin -I ${workspaceFolder}/asm/ ${workspaceFolder}/asm/boot.asm -o ${workspaceFolder}/output/boot.bin",
             "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
         },
         {
-            "type": "cppbuild",
-            "label": "build c",
-            "command": "/usr/bin/clang",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${workspaceFolder}/output/${fileBasenameNoExtension}"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-        }
+            "label": "build entry",
+            "type": "shell",
+            "command": "nasm -f elf -I ${workspaceFolder}/asm/ ${workspaceFolder}/asm/kernel_entry.asm -o ${workspaceFolder}/output/kernel_entry.o",
+            "problemMatcher": [],
+            "group": "build",
+        },
+        {
+            "label": "build kernel",
+            "type": "shell",
+            "command": "gcc -ffreestanding -c ${workspaceFolder}/c/kernel.c -o ${workspaceFolder}/output/kernel.o && objcopy --adjust-start 0x1000 -O binary ${workspaceFolder}/output/kernel.o ${workspaceFolder}/output/kernel.bin",
+            "problemMatcher": [],
+            "group": "build",
+        },
+        {
+            "label": "merge boot.img",
+            "type": "shell",
+            "command": "cat ${workspaceFolder}/output/boot.bin ${workspaceFolder}/output/kernel.bin > boot.img",
+            "problemMatcher": [],
+            "group": "build",
+        },
+        {
+            "label": "run qemu",
+            "type": "shell",
+            "command": "qemu-system-i386 -fda boot.img",
+            "problemMatcher": [],
+            "group": "test",
+        },
     ]
 }
