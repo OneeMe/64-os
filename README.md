@@ -17,6 +17,8 @@ make
 
 ```shell
 make run
+# or
+make debug
 ```
 
 ```shell

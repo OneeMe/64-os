@@ -4,6 +4,8 @@ C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
 HEADERS = $(wildcard kernel/*.h drivers/*.h)
 C_OBJS = $(patsubst %.c, %.o,$(C_SOURCES))
 
+CFLAGS = -g
+
 all: os-image
 
 # build os-image
@@ -16,7 +18,7 @@ kernel/kernel.bin: kernel/kernel_entry.o ${C_OBJS}
 
 # generic .c -> .o rule
 %.o : %.c ${HEADERS}
-	x86_64-elf-gcc -m32 -ffreestanding -c $< -o $@
+	x86_64-elf-gcc ${CFLAGS} -m32 -ffreestanding -c $< -o $@
 
 # generic .asm -> .o rule
 %.o : %.asm
@@ -29,5 +31,12 @@ kernel/kernel.bin: kernel/kernel_entry.o ${C_OBJS}
 run: os-image
 	qemu-system-i386 -fda $^
 
+# Used for debugging purposes
+kernel/kernel.elf: kernel/kernel_entry.o ${C_OBJS}
+	x86_64-elf-ld -o $@ -Ttext 0x1000 $^ -m elf_i386
+
+debug: os-image kernel/kernel.elf
+	qemu-system-i386 -s -fda $^ & gdb -ex "target remote localhost:1234" -ex "symbol-file kernel/kernel.elf"
+
 clean:
-	rm -rf **/*.o **/*.bin
+	rm -rf **/*.o **/*.bin **/*.elf
