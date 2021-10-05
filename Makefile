@@ -39,4 +39,4 @@ debug: os-image kernel/kernel.elf
 	qemu-system-i386 -s -fda $^ & gdb -ex "target remote localhost:1234" -ex "symbol-file kernel/kernel.elf"
 
 clean:
-	rm -rf **/*.o **/*.bin **/*.elf
+	rm -rf **/*.o **/*.bin **/*.elf os-image
