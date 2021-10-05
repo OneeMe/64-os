@@ -4,52 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build boot",
+            "label": "build",
             "type": "shell",
-            "command": "nasm -f bin -I ${workspaceFolder}/asm/ ${workspaceFolder}/asm/boot.asm -o ${workspaceFolder}/output/boot.bin",
+            "command": "make",
             "problemMatcher": [],
-            "group": "build",
-        },
-        {
-            "label": "build entry",
-            "type": "shell",
-            "command": "nasm -f elf -I ${workspaceFolder}/asm/ ${workspaceFolder}/asm/kernel_entry.asm -o ${workspaceFolder}/output/kernel_entry.o",
-            "problemMatcher": [],
-            "group": "build",
-        },
-        {
-            "label": "build kernel",
-            "type": "shell",
-            "command": "x86_64-elf-gcc -ffreestanding -m32 -c ${workspaceFolder}/c/kernel.c -o ${workspaceFolder}/output/kernel.o && x86_64-elf-ld -o output/kernel.bin -Ttext 0x1000 output/kernel_entry.o output/kernel.o --oformat binary -m elf_i386",
-            "problemMatcher": [],
-            "group": "build",
-        },
-        {
-            "label": "merge boot.img",
-            "type": "shell",
-            "command": "cat ${workspaceFolder}/output/boot.bin ${workspaceFolder}/output/kernel.bin > boot.img",
-            "problemMatcher": [],
-            "group": "build",
-        },
-        {
-            "label": "run qemu",
-            "type": "shell",
-            "command": "qemu-system-i386 -fda boot.img",
-            "problemMatcher": [],
-            "group": "none",
-        },
-        {
-            "label": "rebuild and run qemu",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "build boot",
-                "build entry",
-                "build kernel",
-                "merge boot.img",
-                "run qemu",
-            ],
-            "problemMatcher": [],
-            "group": "none",
+            "group": {
+                "isDefault": true,
+                "kind": "build"
+            }
         },
     ]
 }

@@ -1,26 +1,33 @@
-BUILD_DIR=output
+ASM_LIB=lib/asm
 
-all: boot.img
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h)
+C_OBJS = $(patsubst %.c, %.o,$(C_SOURCES))
 
+all: os-image
 
-${BUILD_DIR}/boot.bin: asm/boot.asm
-	nasm -f bin -I asm $^ -o $@
-
-${BUILD_DIR}/kernel_entry.o: asm/kernel_entry.asm
-	nasm -f elf -I asm $^ -o $@
-
-${BUILD_DIR}/kernel.o: c/kernel.c
-	x86_64-elf-gcc -ffreestanding -m32 -c $^ -o $@
-
-${BUILD_DIR}/kernel.bin: ${BUILD_DIR}/kernel.o ${BUILD_DIR}/kernel_entry.o
-	x86_64-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary -m elf_i386
-
-boot.img: ${BUILD_DIR}/boot.bin ${BUILD_DIR}/kernel.bin
+# build os-image
+os-image: boot/boot.bin kernel/kernel.bin
 	cat $^ > $@
 
-run: boot.img
-	qemu-system-i386 -fda boot.img
+# build kernel
+kernel/kernel.bin: kernel/kernel_entry.o ${C_OBJS}
+	x86_64-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary -m elf_i386
+
+# generic .c -> .o rule
+%.o : %.c ${HEADERS}
+	x86_64-elf-gcc -m32 -ffreestanding -c $< -o $@
+
+# generic .asm -> .o rule
+%.o : %.asm
+	nasm $< -f elf -o $@
+
+# generic .asm -> .bin rule
+%.bin : %.asm
+	nasm $< -f bin -I ${ASM_LIB} -o $@
+
+run: os-image
+	qemu-system-i386 -fda $^
 
 clean:
-	rm -rf output/*
-	rm boot.img
+	rm -rf **/*.o **/*.bin

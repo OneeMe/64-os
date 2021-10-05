@@ -9,7 +9,7 @@ vgaromimage: file="/usr/local/Cellar/bochs/2.6.11/share/bochs/VGABIOS-lgpl-lates
 boot: floppy
 floppy_bootsig_check: disabled=0
 # 软盘类型为 1.44 MB 软盘，软盘镜像文件的名称为 boot.img，状态是已经插入，写保护关闭
-floppya: type=1_44, 1_44="boot.img", status=inserted, write_protected=0
+floppya: type=1_44, 1_44="os-image", status=inserted, write_protected=0
 # no floppya
 # no floppyb
 ata0: enabled=true, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
