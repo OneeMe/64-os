@@ -36,7 +36,20 @@
             "type": "shell",
             "command": "qemu-system-i386 -fda boot.img",
             "problemMatcher": [],
-            "group": "test",
+            "group": "none",
+        },
+        {
+            "label": "rebuild and run qemu",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "build boot",
+                "build entry",
+                "build kernel",
+                "merge boot.img",
+                "run qemu",
+            ],
+            "problemMatcher": [],
+            "group": "none",
         },
     ]
 }
