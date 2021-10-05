@@ -20,7 +20,7 @@
         {
             "label": "build kernel",
             "type": "shell",
-            "command": "gcc -ffreestanding -c ${workspaceFolder}/c/kernel.c -o ${workspaceFolder}/output/kernel.o && objcopy --adjust-start 0x1000 -O binary ${workspaceFolder}/output/kernel.o ${workspaceFolder}/output/kernel.bin",
+            "command": "x86_64-elf-gcc -ffreestanding -m32 -c ${workspaceFolder}/c/kernel.c -o ${workspaceFolder}/output/kernel.o && x86_64-elf-ld -o output/kernel.bin -Ttext 0x1000 output/kernel_entry.o output/kernel.o --oformat binary -m elf_i386",
             "problemMatcher": [],
             "group": "build",
         },

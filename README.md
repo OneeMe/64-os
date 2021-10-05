@@ -2,11 +2,10 @@
 
 这是阅读 "Writing a Simple Operating System — from Scratch" 过程中的代码记录
 
-## 编译方式
+## 环境准备
 
 ```shell
-cd asm
-nasm boot.asm -o ../boot.img -f bin
+brew install nasm qemu x86_64-elf-gcc x86_64-elf-binutils
 ```
 
 ## 虚拟机启动方法
@@ -18,5 +17,5 @@ bochs
 或者 
 
 ```shell
-qemu-system-i386  ../boot.img
+qemu-system-i386 -fda boot.img
 ```
