@@ -4,7 +4,7 @@
 typedef struct
 {
     u16 base_low;                         // base 一共有 32 位, 但是这 32 位是分开的，这里是低的 16 位
-    u16 sel;                              // 中断的对应处理程序的地址（为什么地址还是 16 位的？）
+    u16 sel;                              // 中断所在的 segment selector（用于确认在哪个 segment）
     u8 always0;                           // 非常好理解
     u8 flags;                             // 代表中断的其他属性，具体的 flags 信息见 http://www.jamesmolloy.co.uk/tutorial_html/4.-The%20GDT%20and%20IDT.html
     u16 base_high;                        // 最后的高 16 位

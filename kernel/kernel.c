@@ -1,3 +1,5 @@
+#include "../cpu/isr.h"
+
 #include "../drivers/ports.h"
 #include "../drivers/screen.h"
 #include "util.h"
@@ -18,4 +20,8 @@ void main()
     kprint("And with this text, the kernel will scroll again, and row 1 will disappear too!");
 
     kprint("And now we will begin to enable Interrupt");
+    setup_idt();
+    // 测试一下中断好不好使
+    __asm__ __volatile__("int $2");
+    __asm__ __volatile__("int $3");
 }

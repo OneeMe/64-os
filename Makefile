@@ -1,7 +1,7 @@
 ASM_LIB=lib/asm
 
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h)
 C_OBJS = $(patsubst %.c, %.o,$(C_SOURCES))
 
 CFLAGS = -g

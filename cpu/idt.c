@@ -14,5 +14,16 @@ void set_idt_gate(int n, u32 entry_address)
     idt[n].always0 = 0;
     // 0x8E = 10001110，代表 present / 32bit interript gate
     idt[n].flags = 0x8E;
-    idt[n].sel = 0;
+    // 在 lib/asm/gdt.asm 中，我们定义的 code segment 的偏移是 0x8
+    idt[n].sel = 0x8;
+}
+
+void set_idt()
+{
+    idt_pointer.base = (u32)&idt;
+    idt_pointer.limit = IDT_ENTRIES * sizeof(idt_entry_struct) - 1;
+    // 把 idt_pointer 的地址传给汇编让其加载
+    __asm__ __volatile__("lidtl (%0)"
+                         :
+                         : "r"(&idt_pointer));
 }
