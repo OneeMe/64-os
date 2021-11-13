@@ -13,7 +13,7 @@ os-image: boot/boot.bin kernel/kernel.bin
 	cat $^ > $@
 
 # build kernel
-kernel/kernel.bin: kernel/kernel_entry.o ${C_OBJS}
+kernel/kernel.bin: kernel/kernel_entry.o cpu/interrupt_list.o ${C_OBJS}
 	x86_64-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary -m elf_i386
 
 # generic .c -> .o rule

@@ -22,7 +22,7 @@ isr_common_stub:
     popa ; 恢复其他寄存器
     add esp, 8 ; 没太懂
     sti  ; 没太懂
-    ire  ; 回到中断执行之前的位置继续执行
+    iret  ; 回到中断执行之前的位置继续执行
 
 ; define a macro, taking one parameter  
 %macro ISR_NOERRCODE 1 

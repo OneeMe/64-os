@@ -38,9 +38,6 @@ extern void isr31();
 // 初始化所有的中断，前 32 个是必须设置的
 void setup_idt()
 {
-    for (int i = 0; i < 32; i++)
-    {
-    }
     set_idt_gate(0, (u32)isr0);
     set_idt_gate(1, (u32)isr1);
     set_idt_gate(2, (u32)isr2);
