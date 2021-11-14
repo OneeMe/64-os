@@ -1,4 +1,5 @@
 #include "../cpu/isr.h"
+#include "../cpu/timer.h"
 
 #include "../drivers/ports.h"
 #include "../drivers/screen.h"
@@ -11,8 +12,10 @@ void main()
 {
     clear_screen();
     setup_idt();
+
     // test_scroll();
-    test_interrupt();
+    // test_interrupt();
+    init_timer(50);
 }
 
 void test_scroll()

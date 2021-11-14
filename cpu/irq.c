@@ -91,8 +91,8 @@ void irq_handler(isr_param_registers registers)
 
 void register_irq_handler(u8 n, handler handler)
 {
+    irq_handlers[n] = handler;
     if (n >= 0 && n < IRQ_ENTRIES)
     {
-        irq_handlers[n] = handler;
     }
 }

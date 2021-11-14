@@ -74,6 +74,8 @@ void setup_idt()
     setup_irq();
 
     set_idt();
+
+    asm volatile("sti"); // 只有当调用过 sti 指令后，CPU 才会接受 IRQ
 }
 
 /* To print the message which defines every exception */
