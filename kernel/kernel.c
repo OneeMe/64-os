@@ -3,6 +3,7 @@
 
 #include "../drivers/ports.h"
 #include "../drivers/screen.h"
+#include "../drivers/keyboard.h"
 #include "util.h"
 
 void test_scroll();
@@ -15,7 +16,8 @@ void main()
 
     // test_scroll();
     // test_interrupt();
-    init_timer(50);
+    // init_timer(50);
+    init_keyboard();
 }
 
 void test_scroll()
