@@ -1,3 +1,6 @@
+#ifndef IDT_H
+#define IDT_H
+
 #include "types.h"
 
 // IDT 的每个元素的声明
@@ -21,3 +24,4 @@ typedef struct
 // n 代表中断号，entry_address 代表 idt 的地址
 void set_idt_gate(int n, u32 entry_address);
 void set_idt();
+#endif

@@ -1,5 +1,5 @@
 #include "isr.h"
-#include "idt.h"
+#include "irq.h"
 #include "../kernel/util.h"
 
 extern void isr0();
@@ -70,6 +70,8 @@ void setup_idt()
     set_idt_gate(29, (u32)isr29);
     set_idt_gate(30, (u32)isr30);
     set_idt_gate(31, (u32)isr31);
+
+    setup_irq();
 
     set_idt();
 }
