@@ -32,7 +32,7 @@ run: os-image
 	qemu-system-i386 -fda $^
 
 # Used for debugging purposes
-kernel/kernel.elf: kernel/kernel_entry.o ${C_OBJS}
+kernel/kernel.elf: kernel/kernel_entry.o cpu/interrupt_list.o ${C_OBJS}
 	x86_64-elf-ld -o $@ -Ttext 0x1000 $^ -m elf_i386
 
 debug: os-image kernel/kernel.elf
