@@ -5,9 +5,13 @@
 #include "../drivers/screen.h"
 #include "../drivers/keyboard.h"
 #include "../lib/c/string.h"
+#include "../lib/c/memory.h"
+
+#include <stdint.h>
 
 void test_scroll();
 void test_interrupt();
+void test_malloc();
 
 void main()
 {
@@ -18,6 +22,7 @@ void main()
     // test_interrupt();
     // init_timer(50);
     init_keyboard();
+    test_malloc();
 }
 
 void test_scroll()
@@ -42,4 +47,19 @@ void test_interrupt()
     // 测试一下中断好不好使
     __asm__ __volatile__("int $2");
     __asm__ __volatile__("int $3");
+}
+
+void test_malloc()
+{
+    uint32_t phys_addr;
+    uint32_t page = kmalloc_ap(1000, 1, &phys_addr);
+    char page_str[16] = "";
+    hex_to_ascii(page, page_str);
+    char phys_str[16] = "";
+    hex_to_ascii(phys_addr, phys_str);
+    kprint("Page: ");
+    kprint(page_str);
+    kprint(", physical address: ");
+    kprint(phys_str);
+    kprint("\n");
 }
