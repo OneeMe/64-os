@@ -1,5 +1,5 @@
 #include "idt.h"
-#include "../kernel/util.h"
+#include "../lib/c/memory.h"
 
 // 有 256 个中断
 #define IDT_ENTRIES 256

@@ -1,5 +1,4 @@
 #include "irq.h"
-#include "../kernel/util.h"
 
 #define MASTER_PIC 0x20 /* IO base address for master PIC */
 #define SLAVE_PIC 0xA0  /* IO base address for slave PIC */
@@ -91,8 +90,8 @@ void irq_handler(isr_param_registers registers)
 
 void register_irq_handler(u8 n, handler handler)
 {
-    irq_handlers[n] = handler;
     if (n >= 0 && n < IRQ_ENTRIES)
     {
+        irq_handlers[n] = handler;
     }
 }

@@ -4,7 +4,7 @@
 #include "../drivers/ports.h"
 #include "../drivers/screen.h"
 #include "../drivers/keyboard.h"
-#include "util.h"
+#include "../lib/c/string.h"
 
 void test_scroll();
 void test_interrupt();

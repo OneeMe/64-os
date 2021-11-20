@@ -1,6 +1,6 @@
 #include "timer.h"
 #include "../drivers/screen.h"
-#include "../kernel/util.h"
+#include "../lib/c/string.h"
 #include "irq.h"
 
 u32 tick = 0;

@@ -1,6 +1,6 @@
 #include "isr.h"
 #include "irq.h"
-#include "../kernel/util.h"
+#include "../lib/c/string.h"
 
 extern void isr0();
 extern void isr1();
